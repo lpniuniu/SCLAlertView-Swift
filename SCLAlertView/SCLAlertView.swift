@@ -117,6 +117,7 @@ open class SCLAlertViewResponder {
 }
 
 let kCircleHeightBackground: CGFloat = 62.0
+let kCloseHeight: CGFloat = 20
 
 public typealias DismissBlock = () -> Void
 
@@ -222,6 +223,8 @@ open class SCLAlertView: UIViewController {
     var circleBG = UIView(frame:CGRect(x:0, y:0, width:kCircleHeightBackground, height:kCircleHeightBackground))
     open var circleView = UIView()
     open var circleIconView : UIView?
+    open var closeView = UIImageView(image: SCLAlertViewStyleKit.imageOfCross)
+    
     var duration: TimeInterval!
     var durationStatusTimer: Timer!
     var durationTimer: Timer!
@@ -275,6 +278,15 @@ open class SCLAlertView: UIViewController {
         let x = (kCircleHeightBackground - appearance.kCircleHeight) / 2
         circleView.frame = CGRect(x:x, y:x+appearance.kCircleTopPosition, width:appearance.kCircleHeight, height:appearance.kCircleHeight)
         circleView.layer.cornerRadius = circleView.frame.size.height / 2
+        // Close view
+        closeView.frame.size = CGSize(width: kCloseHeight, height: kCloseHeight)
+        closeView.layer.cornerRadius = closeView.bounds.height / 2
+        closeView.layer.masksToBounds = true
+        closeView.backgroundColor = UIColor.black
+        closeView.layer.borderColor = UIColor.white.cgColor
+        closeView.layer.borderWidth = 2
+        closeView.isUserInteractionEnabled = true
+        baseView.addSubview(closeView)
         // Title
         labelTitle.numberOfLines = 0
         labelTitle.textAlignment = .center
@@ -350,6 +362,7 @@ open class SCLAlertView: UIViewController {
         var y = (sz.height - windowHeight - (appearance.kCircleHeight / 8)) / 2
         contentView.frame = CGRect(x:x, y:y, width:appearance.kWindowWidth, height:windowHeight)
         contentView.layer.cornerRadius = appearance.contentViewCornerRadius
+        closeView.center = CGPoint(x: x + contentView.frame.width, y: y)
         y -= kCircleHeightBackground * 0.6
         x = (sz.width - kCircleHeightBackground) / 2
         circleBG.frame = CGRect(x:x, y:y+appearance.kCircleBackgroundTopPosition, width:kCircleHeightBackground, height:kCircleHeightBackground)
@@ -933,7 +946,7 @@ class SCLAlertViewStyleKit : NSObject {
         crossShapePath.lineCapStyle = CGLineCap.round;
         crossShapePath.lineJoinStyle = CGLineJoin.round;
         UIColor.white.setStroke()
-        crossShapePath.lineWidth = 14
+        crossShapePath.lineWidth = 10
         crossShapePath.stroke()
     }
     
