@@ -9,23 +9,23 @@
 import Foundation
 import UIKit
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l < r
-    case (nil, _?):
-        return true
-    default:
-        return false
-    }
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
 }
 
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l > r
-    default:
-        return rhs < lhs
-    }
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
 }
 
 
@@ -52,7 +52,7 @@ public enum SCLAlertViewStyle {
         }
         
     }
-    
+
 }
 
 // Animation Styles
@@ -137,7 +137,7 @@ open class SCLAlertView: UIViewController {
         let kTextFieldHeight: CGFloat
         let kTextViewdHeight: CGFloat
         let kButtonHeight: CGFloat
-        let circleBackgroundColor: UIColor
+		let circleBackgroundColor: UIColor
         let contentViewColor: UIColor
         let contentViewBorderColor: UIColor
         let titleColor: UIColor
@@ -175,7 +175,7 @@ open class SCLAlertView: UIViewController {
             self.kTextFieldHeight = kTextFieldHeight
             self.kTextViewdHeight = kTextViewdHeight
             self.kButtonHeight = kButtonHeight
-            self.circleBackgroundColor = circleBackgroundColor
+			self.circleBackgroundColor = circleBackgroundColor
             self.contentViewColor = contentViewColor
             self.contentViewBorderColor = contentViewBorderColor
             self.titleColor = titleColor
@@ -424,7 +424,7 @@ open class SCLAlertView: UIViewController {
         appearance.setkWindowHeight(appearance.kWindowHeight + appearance.kTextViewdHeight)
         // Add text view
         let txt = UITextView()
-        // No placeholder with UITextView but you can use KMPlaceholderTextView library
+        // No placeholder with UITextView but you can use KMPlaceholderTextView library 
         txt.font = appearance.kTextFont
         //txt.autocapitalizationType = UITextAutocapitalizationType.Words
         //txt.clearButtonMode = UITextFieldViewMode.WhileEditing
@@ -516,11 +516,11 @@ open class SCLAlertView: UIViewController {
         guard let endKeyBoardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.minY else {return}
         
         if tmpContentViewFrameOrigin == nil {
-            tmpContentViewFrameOrigin = self.contentView.frame.origin
+        tmpContentViewFrameOrigin = self.contentView.frame.origin
         }
         
         if tmpCircleViewFrameOrigin == nil {
-            tmpCircleViewFrameOrigin = self.circleBG.frame.origin
+        tmpCircleViewFrameOrigin = self.circleBG.frame.origin
         }
         
         var newContentViewFrameY = self.contentView.frame.maxY - endKeyBoardFrame
@@ -640,35 +640,35 @@ open class SCLAlertView: UIViewController {
         let colorInt = colorStyle ?? style.defaultColorInt
         viewColor = UIColorFromRGB(colorInt)
         // Icon style
-        switch style {
-        case .success:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage: SCLAlertViewStyleKit.imageOfCheckmark)
-            
-        case .error:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage: SCLAlertViewStyleKit.imageOfCross)
-            
-        case .notice:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfNotice)
-            
-        case .warning:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfWarning)
-            
-        case .info:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfInfo)
-            
-        case .edit:
-            
-            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfEdit)
-            
-        case .wait:
-            iconImage = nil
-        }
-        
+//        switch style {
+//        case .success:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage: SCLAlertViewStyleKit.imageOfCheckmark)
+//            
+//        case .error:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage: SCLAlertViewStyleKit.imageOfCross)
+//            
+//        case .notice:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfNotice)
+//            
+//        case .warning:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfWarning)
+//            
+//        case .info:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfInfo)
+//            
+//        case .edit:
+//            
+//            iconImage = checkCircleIconImage(circleIconImage, defaultImage:SCLAlertViewStyleKit.imageOfEdit)
+//            
+//        case .wait:
+//            iconImage = nil
+//        }
+//        
         // Title
         if !title.isEmpty {
             self.labelTitle.text = title
@@ -702,21 +702,7 @@ open class SCLAlertView: UIViewController {
         
         // Alert view colour and images
         circleView.backgroundColor = viewColor
-        // Spinner / icon
-        if style == .wait {
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-            indicator.startAnimating()
-            circleIconView = indicator
-        }
-        else {
-            if let iconTintColor = iconTintColor {
-                circleIconView = UIImageView(image: iconImage!.withRenderingMode(.alwaysTemplate))
-                circleIconView?.tintColor = iconTintColor
-            }
-            else {
-                circleIconView = UIImageView(image: iconImage!)
-            }
-        }
+        circleIconView = UIImageView()
         circleView.addSubview(circleIconView!)
         let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
         circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
@@ -760,7 +746,7 @@ open class SCLAlertView: UIViewController {
         
         // Animate in the alert view
         self.showAnimation(animationStyle)
-        
+       
         // Chainable objects
         return SCLAlertViewResponder(alertview: self)
     }
@@ -773,7 +759,7 @@ open class SCLAlertView: UIViewController {
         var animationCenter : CGPoint = rv.center
         
         switch animationStyle {
-            
+
         case .noAnimation:
             self.view.alpha = 1.0
             return;
@@ -794,23 +780,23 @@ open class SCLAlertView: UIViewController {
             animationStartOrigin = CGPoint(x: self.baseView.frame.origin.x - animationStartOffset, y: animationStartOrigin.y)
             animationCenter = CGPoint(x: animationCenter.x - boundingAnimationOffset, y: animationCenter.y)
         }
-        
+
         self.baseView.frame.origin = animationStartOrigin
         
         if self.appearance.dynamicAnimatorActive {
-            UIView.animate(withDuration: animationDuration, animations: {
+            UIView.animate(withDuration: animationDuration, animations: { 
                 self.view.alpha = 1.0
             })
             self.animate(item: self.baseView, center: rv.center)
         } else {
             UIView.animate(withDuration: animationDuration, animations: {
                 self.view.alpha = 1.0
-                self.baseView.center = animationCenter
-            }, completion: { finished in
-                UIView.animate(withDuration: animationDuration, animations: {
-                    self.view.alpha = 1.0
-                    self.baseView.center = rv.center
-                })
+                 self.baseView.center = animationCenter
+                }, completion: { finished in
+                    UIView.animate(withDuration: animationDuration, animations: {
+                        self.view.alpha = 1.0
+                        self.baseView.center = rv.center
+                    })
             })
         }
     }
@@ -820,7 +806,7 @@ open class SCLAlertView: UIViewController {
     var snapBehavior : UISnapBehavior?
     
     fileprivate func animate(item : UIView , center: CGPoint) {
-        
+    
         if let snapBehavior = self.snapBehavior {
             self.animator?.removeBehavior(snapBehavior)
         }
@@ -844,27 +830,27 @@ open class SCLAlertView: UIViewController {
     open func hideView() {
         UIView.animate(withDuration: 0.2, animations: {
             self.view.alpha = 0
-        }, completion: { finished in
-            
-            //Stop durationTimer so alertView does not attempt to hide itself and fire it's dimiss block a second time when close button is tapped
-            self.durationTimer?.invalidate()
-            // Stop StatusTimer
-            self.durationStatusTimer?.invalidate()
-            
-            if(self.dismissBlock != nil) {
-                // Call completion handler when the alert is dismissed
-                self.dismissBlock!()
-            }
-            
-            // This is necessary for SCLAlertView to be de-initialized, preventing a strong reference cycle with the viewcontroller calling SCLAlertView.
-            for button in self.buttons {
-                button.action = nil
-                button.target = nil
-                button.selector = nil
-            }
-            
-            self.view.removeFromSuperview()
-            self.selfReference = nil
+            }, completion: { finished in
+                
+                //Stop durationTimer so alertView does not attempt to hide itself and fire it's dimiss block a second time when close button is tapped
+                self.durationTimer?.invalidate()
+                // Stop StatusTimer
+                self.durationStatusTimer?.invalidate()
+                
+                if(self.dismissBlock != nil) {
+                    // Call completion handler when the alert is dismissed
+                    self.dismissBlock!()
+                }
+                
+                // This is necessary for SCLAlertView to be de-initialized, preventing a strong reference cycle with the viewcontroller calling SCLAlertView.
+                for button in self.buttons {
+                    button.action = nil
+                    button.target = nil
+                    button.selector = nil
+                }
+                
+                self.view.removeFromSuperview()
+                self.selfReference = nil
         })
     }
     
