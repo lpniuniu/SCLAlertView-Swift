@@ -208,6 +208,10 @@ open class SCLAlertView: UIViewController {
     
     var appearance: SCLAppearance!
     
+    open func hideCloseBtn() {
+        appearance.showCloseButton = false
+    }
+    
     // UI Colour
     var viewColor = UIColor()
     
